@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { MicrophoneIcon } from "@heroicons/react/24/solid";
 
 const navigation = [
   { name: "Dashboard", href: "#", current: true },
@@ -59,11 +60,31 @@ export default function Header() {
                     ))}
                   </div>
                 </div>
+                {/* youtube search */}
+                <div className="w-1/3">
+                  <input
+                    type="text"
+                    name="Search"
+                    id="search"
+                    placeholder="Search"
+                    autoComplete="given-name"
+                    className="block w-full rounded-xl border-1 border-white py-1.5 px-5 text-white-900 shadow-sm ring-black-900 placeholder:text-white sm:text-sm sm:leading-6"
+                  />
+                </div>
+                {/* microphone icon */}
+                <button
+                  type="button"
+                  className="relative rounded-full ml-3 bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none"
+                >
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">View notifications</span>
+                  <MicrophoneIcon className="h-6 w-8" aria-hidden="true" />
+                </button>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
                   type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  className="relative rounded-full bg-black-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
