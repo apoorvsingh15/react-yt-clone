@@ -33,7 +33,7 @@ export default function Header() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
                 <div className="flex flex-shrink-0 items-center">
                   <Bars3Icon
                     className="block h-8 w-8 cursor-pointer hover:bg-gray-700 hover:text-white rounded-full p-1"
