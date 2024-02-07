@@ -1,6 +1,8 @@
+import { API_KEY } from "../data/credentials/constants";
 import ytLogo from "/yt.svg";
 import { SignalIcon } from "@heroicons/react/24/outline";
 const VideoCard = () => {
+  console.log(API_KEY, "<==");
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 xl:w-1/5 px-2 mb-4">
       <div className="bg-white rounded-md">Video</div>
