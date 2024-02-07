@@ -1,8 +1,8 @@
-import { API_KEY } from "../data/credentials/constants";
+/* eslint-disable react/prop-types */
+import { decodeHtmlEntities } from "../utils/fetchUtils";
 import ytLogo from "/yt.svg";
 import { SignalIcon } from "@heroicons/react/24/outline";
-const VideoCard = () => {
-  console.log(API_KEY, "<==");
+const VideoCard = ({ channelInfo }) => {
   return (
     <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/5 xl:w-1/5 px-2 mb-4">
       <div className="bg-white rounded-md">Video</div>
@@ -13,8 +13,10 @@ const VideoCard = () => {
           </div>
         </div>
         <div>
-          <div>Heading</div>
-          <div>Channel Name</div>
+          <div className="font-medium">
+            {decodeHtmlEntities(channelInfo?.snippet?.title)}
+          </div>
+          <div>{decodeHtmlEntities(channelInfo?.snippet?.channelTitle)}</div>
           <div>Watching</div>
           <div className="inline-flex bg-red-900 p-1 rounded-sm">
             <div className="mr-2">
