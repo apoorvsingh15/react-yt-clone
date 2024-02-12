@@ -20,7 +20,7 @@ It uses two official plugins:
 The installation is pretty easy -
 
 - git clone the project
-  > npm install
-  > npm run dev
+  `npm install`
+  `npm run dev`
 
 The project should be up and running on a specific port.
