@@ -3,13 +3,15 @@ import Header from "../components/Header";
 import VideoCard from "../components/VideoCard";
 
 import useYoutubeSearch from "../hooks/dataFetching/YoutubeSearchHooks";
+import Sidebar from "../components/Sidebar";
 
 const Home = () => {
   const [paginatedData, setPaginatedData] = useState([]);
   const [params, setParams] = useState({
     part: "snippet",
-    q: "f1",
+    q: "cars",
   });
+  const [searchTerm, setSearchTerm] = useState("");
   const [isAtBottom, setIsAtBottom] = useState(false);
 
   const { data, status } = useYoutubeSearch(params);
@@ -23,11 +25,29 @@ const Home = () => {
     }
   };
 
+  const handleClickSearch = (searchTerm) => {
+    if (searchTerm !== params.q) {
+      setPaginatedData([]);
+      setParams({
+        part: "snippet",
+        q: searchTerm,
+      });
+    }
+  };
+
   useEffect(() => {
     if (data?.items) {
-      let unique = new Map();
-      unique = [...paginatedData, ...data.items];
-      setPaginatedData([...unique]);
+      const newData = [...paginatedData];
+
+      // Filter out duplicates based on a unique identifier (e.g., item.id)
+      const uniqueItems = data.items.filter(
+        (item) =>
+          !newData.some(
+            (existingItem) => existingItem.id.videoId === item.id.videoId
+          )
+      );
+      // Update paginatedData with unique items
+      setPaginatedData([...new Set([...newData, ...uniqueItems])]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.items]);
@@ -63,12 +83,16 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
+      <Header
+        onClickSearch={handleClickSearch}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
       <div className="flex m-2.5">
         <div className="hidden sm:hidden md:hidden min-w-72 lg:block min-w-72 xl:block min-w-72">
-          Side Bar
+          <Sidebar />
         </div>
-        <div className="flex flex-wrap -mx-2">
+        <div className="flex flex-wrap -mx-2 mt-20">
           {paginatedData?.length
             ? paginatedData?.map((channelInfo) => (
                 <VideoCard
