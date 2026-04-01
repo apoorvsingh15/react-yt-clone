@@ -1,157 +1,119 @@
 /* eslint-disable react/prop-types */
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-
+import { useState } from "react";
+import {
+  BellIcon,
+  MagnifyingGlassIcon,
+  SunIcon,
+  MoonIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import { useTheme } from "../context/ThemeContext";
 import ytLogo from "/yt.svg";
-const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+export default function Header({ onClickSearch, searchTerm, setSearchTerm, onToggleSidebar }) {
+  const { isDark, toggle } = useTheme();
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
-export default function Header({ onClickSearch, searchTerm, setSearchTerm }) {
+  const handleSearch = (e) => {
+    e.preventDefault();
+    onClickSearch(searchTerm);
+  };
+
   return (
-    <Disclosure as="nav" className="fixed w-full bg-black top-0">
-      <>
-        <div className="mx-auto max-w-full px-2 sm:px-12 lg:px-8 ">
-          <div className="relative flex h-16 items-center justify-between">
-            <div className="absolute inset-y-0 left-0 flex items-center sm:hidden"></div>
-            <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-between">
-              <div className="flex flex-shrink-0 items-center">
-                {/* youtube icon */}
-                <img className="h-8 w-8 " src={ytLogo} alt="youtube_Logo" />
-                Premium
-              </div>
-
-              <div className=" flex w-1/3">
-                <input
-                  type="text"
-                  name="Search"
-                  id="search"
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search"
-                  autoComplete="given-name"
-                  className="block w-full rounded-xl border-1 border-white py-1.5 px-5 text-white-900 shadow-sm ring-black-900 placeholder:text-white sm:text-sm sm:leading-6"
-                />
-                {/* microphone icon */}
-                <button
-                  type="button"
-                  className="relative rounded-full ml-3 bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none"
-                  onClick={() => onClickSearch(searchTerm)}
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <MagnifyingGlassIcon className="h-6 w-8" aria-hidden="true" />
-                </button>
-              </div>
-
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="relative rounded-full bg-black-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-
-                {/* Profile dropdown */}
-                <Menu as="div" className="relative ml-3">
-                  <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                      <span className="absolute -inset-1.5" />
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </div>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div>
+    <header className="fixed top-0 left-0 right-0 z-50 h-14 flex items-center gap-2 px-3 sm:px-4 bg-white dark:bg-[#0f0f0f] border-b border-gray-200 dark:border-gray-800 shadow-sm dark:shadow-none">
+      {/* Left: hamburger + logo */}
+      {!showMobileSearch && (
+        <div className="flex items-center gap-1 flex-shrink-0">
+          <button
+            onClick={onToggleSidebar}
+            className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+            aria-label="Toggle sidebar"
+          >
+            <Bars3Icon className="h-6 w-6" />
+          </button>
+          <a href="/" className="flex items-center gap-1 pl-1">
+            <img className="h-6 w-6" src={ytLogo} alt="YouTube Logo" />
+            <span className="hidden sm:inline text-base font-bold text-gray-900 dark:text-white leading-none">
+              YouTube
+            </span>
+            <span className="hidden sm:inline text-[10px] font-semibold text-gray-500 dark:text-gray-400 self-start pt-0.5">
+              Premium
+            </span>
+          </a>
         </div>
+      )}
 
-        <Disclosure.Panel className="sm:hidden">
-          <div className="space-y-1 px-2 pb-3 pt-2">
-            {navigation.map((item) => (
-              <Disclosure.Button
-                key={item.name}
-                as="a"
-                href={item.href}
-                className={classNames(
-                  item.current
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                  "block rounded-md px-3 py-2 text-base font-medium"
-                )}
-                aria-current={item.current ? "page" : undefined}
-              >
-                {item.name}
-              </Disclosure.Button>
-            ))}
-          </div>
-        </Disclosure.Panel>
-      </>
-    </Disclosure>
+      {/* Center: search bar (hidden on mobile unless activated) */}
+      <form
+        onSubmit={handleSearch}
+        className={`${showMobileSearch ? "flex" : "hidden"} md:flex flex-1 items-center max-w-xl mx-auto`}
+      >
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search"
+          className="flex-1 px-4 py-2 text-sm bg-white dark:bg-[#121212] text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-l-full focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 placeholder-gray-400 dark:placeholder-gray-500"
+        />
+        <button
+          type="submit"
+          className="px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-l-0 border-gray-300 dark:border-gray-600 rounded-r-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 flex-shrink-0"
+          aria-label="Search"
+        >
+          <MagnifyingGlassIcon className="h-5 w-5" />
+        </button>
+        {showMobileSearch && (
+          <button
+            type="button"
+            onClick={() => setShowMobileSearch(false)}
+            className="ml-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 md:hidden"
+            aria-label="Cancel search"
+          >
+            <XMarkIcon className="h-5 w-5" />
+          </button>
+        )}
+      </form>
+
+      {/* Right: action buttons */}
+      <div className="flex items-center gap-0.5 ml-auto flex-shrink-0">
+        {/* Mobile search toggle */}
+        {!showMobileSearch && (
+          <button
+            className="md:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+            onClick={() => setShowMobileSearch(true)}
+            aria-label="Search"
+          >
+            <MagnifyingGlassIcon className="h-6 w-6" />
+          </button>
+        )}
+
+        {/* Dark / light mode toggle */}
+        <button
+          onClick={toggle}
+          className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+          aria-label="Toggle dark mode"
+        >
+          {isDark ? <SunIcon className="h-6 w-6" /> : <MoonIcon className="h-6 w-6" />}
+        </button>
+
+        {/* Notifications */}
+        <button
+          className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
+          aria-label="Notifications"
+        >
+          <BellIcon className="h-6 w-6" />
+        </button>
+
+        {/* Profile avatar */}
+        <button className="ml-1 flex-shrink-0" aria-label="Profile">
+          <img
+            className="h-8 w-8 rounded-full ring-2 ring-transparent hover:ring-blue-500 transition-all"
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="Profile"
+          />
+        </button>
+      </div>
+    </header>
   );
 }
